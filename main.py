@@ -51,13 +51,19 @@ def triage_patient():
     """POST API to process patient symptoms and insert into the queue."""
     data = request.json
     patient_name = data.get("name")
-    symptoms = data.get("symptoms")
-    
-    if not symptoms:
-        return jsonify({"error": "Symptoms are required"}), 400
+    gender = data.get("gender", "Not specified")  # Optional, defaults to 'Not specified'
+    age = data.get("age", "Not specified")  # Optional, defaults to 'Not specified'
+    symptoms = data.get("symptoms")  # Combined symptoms and descriptions
+
+    if not symptoms or not patient_name:
+        return jsonify({"error": "Name and symptoms are required"}), 400
 
     # Construct the prompt for the LLM
     prompt = f"""
+    Patient Information:
+    Name: {patient_name}
+    Gender: {gender}
+    Age: {age}
     Symptoms: {symptoms}
 
     Provide the following:
@@ -65,7 +71,7 @@ def triage_patient():
     2. The top 3 most likely diagnoses.
 
     Respond in this exact format:
-    "Severity rating: X. Potential diagnoses: diagnosis1, diagnosis2, diagnosis3"
+    "Severity rating: X. Potential diagnoses: diagnosis1(common name), diagnosis2(common name), diagnosis3(common name)"
     """
 
     try:
@@ -80,6 +86,8 @@ def triage_patient():
         patient_data = {
             "patient_id": patient_id_counter,  # Assign the current patient_id
             "patient_name": patient_name,
+            "gender": gender,
+            "age": age,
             "symptoms": symptoms,
             "severity_rating": severity_rating,
             "potential_diagnoses": potential_diagnoses
