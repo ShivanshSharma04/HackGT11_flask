@@ -1,38 +1,72 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* Styling the entire app container */
+.app-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  height: 100vh;
+  background-color: #e0f7f7; /* Light blue-green tone */
+}
+
+/* Title styling */
+.title {
+  font-size: 5rem;
+  color: #345d7e;
+  margin-bottom: 80px; /* Space below title */
+  align-items: center;
+}
+
+/* Centering the description and prompt */
+.description-container,
+.symptom-prompt,
+.extra-inputs {
+  margin-bottom: 20px; /* Add spacing between sections */
+}
+
+.symptom-prompt h2 {
+  font-size: 2.5rem;
+  color: #345d7e; /* Darker blue-green color for text */
+  align-items: center;
+}
+
+.description-container h3 {
+  font-size: 2.5rem;
+  color: #345d7e;
+  align-items: center;
+}
+
+/* Styling the input boxes */
+.input-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.input-box {
+  width: 300px;
+  padding: 10px;
+  border: 2px solid #a1c5c7;
+  border-radius: 5px;
+  outline: none;
+  font-size: 1rem;
+  margin-right: 10px;
+}
+
+/* Styling the single submit button */
+.submit-container {
+  margin-top: 30px;
+}
+
+.submit-button {
+  background-color: #4a90e2; /* Blue color for the button */
   color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 5px;
+  font-size: 1.25rem;
+  cursor: pointer;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.submit-button:hover {
+  background-color: #357ab7; /* Darker blue on hover */
 }
