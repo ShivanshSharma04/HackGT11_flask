@@ -1,72 +1,113 @@
-/* Styling the entire app container */
+/* Ensure the background covers the entire viewport */
+body, html {
+  height: 100%;
+  margin: 0;
+  background-color: #f3e5f5;  /* Light purple background for the entire screen */
+}
+
+/* Change the background color of the app container */
 .app-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  background-color: #e0f7f7; /* Light blue-green tone */
+  background-color: #f3e5f5;
+  padding: 40px;
+  border-radius: 10px;
+  width: 80%;
+  margin: auto;
+  text-align: center;
+  min-height: 100vh; /* Ensure the app container is at least the full height of the viewport */
+  box-sizing: border-box; /* Include padding and borders in the height calculation */
 }
 
-/* Title styling */
-.title {
-  font-size: 5rem;
-  color: #345d7e;
-  margin-bottom: 80px; /* Space below title */
-  align-items: center;
+/* Table and spacing */
+.patient-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
 }
 
-/* Centering the description and prompt */
-.description-container,
-.symptom-prompt,
-.extra-inputs {
-  margin-bottom: 20px; /* Add spacing between sections */
+.patient-table th, .patient-table td {
+  border: 1px solid black;  /* Black border for table lines */
+  padding: 12px;
+  text-align: center;
 }
 
-.symptom-prompt h2 {
-  font-size: 2.5rem;
-  color: #345d7e; /* Darker blue-green color for text */
-  align-items: center;
+.patient-table th {
+  background-color: #6f42c1;
+  color: white;
 }
 
-.description-container h3 {
-  font-size: 2.5rem;
-  color: #345d7e;
-  align-items: center;
+/* Purple title */
+.purple-title {
+  color: #6f42c1;
+  font-size: 3rem;
 }
 
-/* Styling the input boxes */
-.input-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
+/* Input fields */
 .input-box {
-  width: 300px;
-  padding: 10px;
-  border: 2px solid #a1c5c7;
+  margin: 10px 5px;
+  padding: 12px;
+  width: 25%;
+  border: 2px solid #325d88;
   border-radius: 5px;
-  outline: none;
-  font-size: 1rem;
-  margin-right: 10px;
 }
 
-/* Styling the single submit button */
-.submit-container {
-  margin-top: 30px;
-}
-
+/* Buttons */
 .submit-button {
-  background-color: #4a90e2; /* Blue color for the button */
+  padding: 12px 20px;
+  background-color: #6f42c1;
   color: white;
   border: none;
-  padding: 15px 30px;
-  border-radius: 5px;
-  font-size: 1.25rem;
   cursor: pointer;
+  border-radius: 5px;
 }
 
 .submit-button:hover {
-  background-color: #357ab7; /* Darker blue on hover */
+  background-color: #563d7c;
+}
+
+/* Cross mark (delete button) for each row */
+.delete-button {
+  background: none;
+  border: none;
+  color: red;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.delete-button:hover {
+  color: darkred;
+}
+
+/* Bubbling-Up Animation */
+.bubble-up-enter {
+  opacity: 0;
+  transform: translateY(50%);
+}
+
+.bubble-up-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 700ms ease;
+}
+
+.bubble-up-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.bubble-up-exit-active {
+  transform: translateY(50%);
+  opacity: 0;
+  transition: all 700ms ease;
+}
+
+/* Highlight for the newly inserted row */
+.highlight {
+  background-color: #a0e7a0;  /* Green background for inserted row */
+  animation: fadeOut 2s ease forwards;  /* Fades out the green background */
+}
+
+@keyframes fadeOut {
+  0% { background-color: #a0e7a0; }
+  100% { background-color: white; }
 }
