@@ -8,25 +8,41 @@
   background-color: #e0f7f7; /* Light blue-green tone */
 }
 
-/* Centering the prompt */
-.symptom-prompt {
-  margin-bottom: 200px; /* Increased margin to lower the input fields */
+/* Title styling */
+.title {
+  font-size: 5rem;
+  color: #345d7e;
+  margin-bottom: 80px; /* Space below title */
+  align-items: center;
 }
 
-.symptom-prompt h1 {
+/* Centering the description and prompt */
+.description-container,
+.symptom-prompt,
+.extra-inputs {
+  margin-bottom: 20px; /* Add spacing between sections */
+}
+
+.symptom-prompt h2 {
   font-size: 2.5rem;
   color: #345d7e; /* Darker blue-green color for text */
+  align-items: center;
 }
 
-/* Styling the input box and the send button */
+.description-container h3 {
+  font-size: 2.5rem;
+  color: #345d7e;
+  align-items: center;
+}
+
+/* Styling the input boxes */
 .input-container {
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-top: 20px; /* Added margin to push the input box lower */
 }
 
-.symptom-input {
+.input-box {
   width: 300px;
   padding: 10px;
   border: 2px solid #a1c5c7;
@@ -36,16 +52,21 @@
   margin-right: 10px;
 }
 
-.send-button {
+/* Styling the single submit button */
+.submit-container {
+  margin-top: 30px;
+}
+
+.submit-button {
   background-color: #4a90e2; /* Blue color for the button */
   color: white;
   border: none;
-  padding: 10px 20px;
+  padding: 15px 30px;
   border-radius: 5px;
-  font-size: 1rem;
+  font-size: 1.25rem;
   cursor: pointer;
 }
 
-.send-button:hover {
+.submit-button:hover {
   background-color: #357ab7; /* Darker blue on hover */
 }
