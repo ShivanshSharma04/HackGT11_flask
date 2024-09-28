@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 import re
 import os
 from flask_cors import CORS
+from llm_client import query_llm  # Import the actual query_llm function
 
 app = Flask(__name__)
 
@@ -53,7 +54,7 @@ def triage_patient():
     if not symptoms or not patient_name:
         return jsonify({"error": "Name and symptoms are required"}), 400
 
-    # Construct the prompt for the LLM (replace this with your actual logic)
+    # Construct the prompt for the LLM
     prompt = f"""
     Patient Information:
     Name: {patient_name}
@@ -70,8 +71,9 @@ def triage_patient():
     """
 
     try:
-        # Mocked response for simplicity (since we aren't calling any LLM here)
-        gpt_output = "Severity rating: 7. Potential diagnoses: Flu, Cold, Migraine."
+        # Call the actual LLM to get the response based on the symptoms
+        gpt_output = query_llm(prompt)
+        print("Generated Response:", gpt_output)
 
         # Parse the response to extract severity rating and diagnoses
         severity_rating, potential_diagnoses = parse_response(gpt_output)
@@ -95,7 +97,7 @@ def triage_patient():
 
         # Return the patient data
         return jsonify(patient_data), 200
-    
+
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
