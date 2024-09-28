@@ -70,3 +70,17 @@
 .submit-button:hover {
   background-color: #357ab7; /* Darker blue on hover */
 }
+
+.response-container {
+  margin-top: 20px;
+  background-color: #f0f4f8;
+  padding: 15px;
+  border-radius: 10px;
+  width: 400px;
+  text-align: left;
+}
+
+.response-container h3 {
+  font-size: 1.25rem;
+  color: #345d7e;
+}
