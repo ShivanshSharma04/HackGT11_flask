@@ -1,10 +1,12 @@
 from flask import Flask, request, jsonify
 import re
 import os
+from flask_cors import CORS
 
 app = Flask(__name__)
 
 # Initialize global patient_id and an empty list to serve as the queue
+CORS(app)
 patient_id_counter = 1
 triage_queue = []
 
