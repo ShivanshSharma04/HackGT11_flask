@@ -10,29 +10,29 @@
 
 /* Title styling */
 .title {
-  font-size: 5rem;
+  font-size: 6rem;
   color: #345d7e;
-  margin-bottom: 80px; /* Space below title */
+  margin-bottom: 100px; /* Space below title */
+}
+
+/* Centering the name container */
+.name-container { /* Updated to name-container */
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  margin-bottom: 20px; /* Space between name and next section */
 }
 
-/* Centering the description and prompt */
-.description-container,
-.symptom-prompt,
-.extra-inputs {
-  margin-bottom: 20px; /* Add spacing between sections */
+.name-container h3 {
+  font-size: 2.5rem;
+  color: #345d7e;
+  margin-bottom: 10px;
 }
 
+/* Centering the symptom prompt */
 .symptom-prompt h2 {
   font-size: 2.5rem;
   color: #345d7e; /* Darker blue-green color for text */
-  align-items: center;
-}
-
-.description-container h3 {
-  font-size: 2.5rem;
-  color: #345d7e;
-  align-items: center;
 }
 
 /* Styling the input boxes */
