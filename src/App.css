@@ -1,38 +1,51 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* Styling the entire app container */
+.app-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  height: 100vh;
+  background-color: #e0f7f7; /* Light blue-green tone */
+}
+
+/* Centering the prompt */
+.symptom-prompt {
+  margin-bottom: 200px; /* Increased margin to lower the input fields */
+}
+
+.symptom-prompt h1 {
+  font-size: 2.5rem;
+  color: #345d7e; /* Darker blue-green color for text */
+}
+
+/* Styling the input box and the send button */
+.input-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 20px; /* Added margin to push the input box lower */
+}
+
+.symptom-input {
+  width: 300px;
+  padding: 10px;
+  border: 2px solid #a1c5c7;
+  border-radius: 5px;
+  outline: none;
+  font-size: 1rem;
+  margin-right: 10px;
+}
+
+.send-button {
+  background-color: #4a90e2; /* Blue color for the button */
   color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.send-button:hover {
+  background-color: #357ab7; /* Darker blue on hover */
 }

@@ -1,12 +1,20 @@
-// src/App.js
 import React from 'react';
-import HelloWorld from './HelloWorld';  // Import the new component
+import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <h1>Hello, World! Welcome to My React App</h1>
-      <HelloWorld />  {/* Render the HelloWorld component */}
+    <div className="app-container">
+      <div className="symptom-prompt">
+        <h1>What are your symptoms?</h1>
+      </div>
+      <div className="input-container">
+        <input
+          type="text"
+          placeholder="Describe your symptoms here..."
+          className="symptom-input"
+        />
+        <button className="send-button">Send</button>
+      </div>
     </div>
   );
 }
