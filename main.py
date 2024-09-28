@@ -1,15 +1,8 @@
 from flask import Flask, request, jsonify
-from llm_client import query_llm
-import requests
-import time
 import re
 import os
 
 app = Flask(__name__)
-
-# Hugging Face API settings
-API_URL = "https://api-inference.huggingface.co/models/EleutherAI/gpt-neo-1.3B"
-API_KEY = "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"
 
 # Initialize global patient_id and an empty list to serve as the queue
 patient_id_counter = 1
@@ -58,7 +51,7 @@ def triage_patient():
     if not symptoms or not patient_name:
         return jsonify({"error": "Name and symptoms are required"}), 400
 
-    # Construct the prompt for the LLM
+    # Construct the prompt for the LLM (replace this with your actual logic)
     prompt = f"""
     Patient Information:
     Name: {patient_name}
@@ -75,9 +68,8 @@ def triage_patient():
     """
 
     try:
-        # Call the Hugging Face LLM to get the response
-        gpt_output = query_llm(prompt)
-        print("Generated Response:", gpt_output)
+        # Mocked response for simplicity (since we aren't calling any LLM here)
+        gpt_output = "Severity rating: 7. Potential diagnoses: Flu, Cold, Migraine."
 
         # Parse the response to extract severity rating and diagnoses
         severity_rating, potential_diagnoses = parse_response(gpt_output)
@@ -110,6 +102,28 @@ def triage_patient():
 def get_queue():
     """GET API to retrieve the current triage queue."""
     return jsonify(triage_queue), 200
+
+
+@app.route('/treat', methods=['POST'])
+def treat_queue():
+    """POST API to mark the patient with the given id as treated and remove them from the queue."""
+    global triage_queue
+    data = request.json
+
+    # Check if 'patient_id' is in the request data
+    if 'patient_id' not in data:
+        return jsonify({"error": "patient_id is required"}), 400
+    
+    patient_id = data["patient_id"]
+    
+    # Search for the patient in the queue
+    for i, patient in enumerate(triage_queue):
+        if patient["patient_id"] == patient_id:
+            triage_queue.pop(i)  # Remove the patient
+            return jsonify({"message": "Patient treated and removed from queue", "queue": triage_queue}), 200
+    
+    # If patient is not found
+    return jsonify({"error": "Patient not found"}), 404
 
 
 if __name__ == '__main__':
