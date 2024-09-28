@@ -1,14 +1,32 @@
 from flask import Flask, request, jsonify
-import openai
+from llm_client import query_llm
+import requests
+import time
+import re
 import os
 
 app = Flask(__name__)
 
-# Set your OpenAI API key directly
-openai.api_key = "key"  # Replace with your actual OpenAI API key
+# Hugging Face API settings
+API_URL = "https://api-inference.huggingface.co/models/EleutherAI/gpt-neo-1.3B"
+API_KEY = "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"
 
-# Initialize an empty list to serve as the queue
+# Initialize global patient_id and an empty list to serve as the queue
+patient_id_counter = 1
 triage_queue = []
+
+
+def parse_response(response: str):
+    # Use regex to find all matches for the severity rating and diagnoses, then take the last one
+    severity_matches = re.findall(r"Severity rating: (\d+)", response)
+    diagnoses_matches = re.findall(r"Potential diagnoses: (.+)", response)
+    
+    # Get the last match for each
+    severity_rating = int(severity_matches[-1]) if severity_matches else None
+    diagnoses = diagnoses_matches[-1].split(', ') if diagnoses_matches else None
+    
+    return severity_rating, diagnoses
+
 
 def insert_patient_in_queue(patient_data):
     """Inserts a patient into the queue sorted by severity rating."""
@@ -26,56 +44,49 @@ def insert_patient_in_queue(patient_data):
     if not inserted:
         triage_queue.append(patient_data)
 
+
 @app.route('/triage', methods=['POST'])
 def triage_patient():
+    global patient_id_counter  # Use the global patient_id_counter
     """POST API to process patient symptoms and insert into the queue."""
     data = request.json
-    patient_id = data.get("patient_id")
+    patient_name = data.get("name")
     symptoms = data.get("symptoms")
     
     if not symptoms:
         return jsonify({"error": "Symptoms are required"}), 400
 
-    # Construct the prompt for GPT
+    # Construct the prompt for the LLM
     prompt = f"""
-    You are an ER triage assistant. Given the following patient's description and symptoms, provide a rating from 1 to 10 for the severity of the condition, along with the top 3 most likely diagnoses.
-
     Symptoms: {symptoms}
 
-    Respond ONLY with the following format and nothing else:
-    "Severity rating: [integer]. Potential diagnoses: [diagnosis1, diagnosis2, diagnosis3]"
+    Provide the following:
+    1. A severity rating from 1 to 10 for the condition.
+    2. The top 3 most likely diagnoses.
+
+    Respond in this exact format:
+    "Severity rating: X. Potential diagnoses: diagnosis1, diagnosis2, diagnosis3"
     """
 
     try:
-        # Call the new OpenAI API (chat completion)
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",  # Use appropriate model
-            messages=[{"role": "system", "content": prompt}],
-        )
-        gpt_output = response['choices'][0]['message']['content'].strip()
-        print("GPT Response:", gpt_output)
+        # Call the Hugging Face LLM to get the response
+        gpt_output = query_llm(prompt)
+        print("Generated Response:", gpt_output)
 
-        # Process the GPT output to extract severity rating and diagnoses
-        if "Severity rating:" not in gpt_output or "Potential diagnoses:" not in gpt_output:
-            raise ValueError(f"GPT response does not contain expected format. Response: {gpt_output}")
+        # Parse the response to extract severity rating and diagnoses
+        severity_rating, potential_diagnoses = parse_response(gpt_output)
 
-        # Extract severity rating and diagnoses
-        severity_rating_str = gpt_output.split("Severity rating:")[1].split(".")[0].strip()
-        severity_rating = int(severity_rating_str)
-
-        diagnoses_str = gpt_output.split("Potential diagnoses:")[1].strip()
-        potential_diagnoses = diagnoses_str.split(", ")
-
-        if len(potential_diagnoses) != 3:
-            raise ValueError(f"GPT response does not contain exactly three diagnoses. Response: {gpt_output}")
-        
         # Create the patient entry with severity rating and diagnoses
         patient_data = {
-            "patient_id": patient_id,
+            "patient_id": patient_id_counter,  # Assign the current patient_id
+            "patient_name": patient_name,
             "symptoms": symptoms,
             "severity_rating": severity_rating,
             "potential_diagnoses": potential_diagnoses
         }
+
+        # Increment the patient_id for the next patient
+        patient_id_counter += 1
 
         # Insert the patient into the queue at the proper position
         insert_patient_in_queue(patient_data)
@@ -86,10 +97,12 @@ def triage_patient():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+
 @app.route('/queue', methods=['GET'])
 def get_queue():
     """GET API to retrieve the current triage queue."""
     return jsonify(triage_queue), 200
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=os.getenv("PORT", default=5000))
