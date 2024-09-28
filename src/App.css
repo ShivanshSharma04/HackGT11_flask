@@ -1,3 +1,10 @@
+/* Ensure the background covers the entire viewport */
+body, html {
+  height: 100%;
+  margin: 0;
+  background-color: #f3e5f5;  /* Light purple background for the entire screen */
+}
+
 /* Styling the entire app container */
 .app-container {
   display: flex;
@@ -5,18 +12,25 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #e0f7f7; /* Light blue-green tone */
+  background-color: #f3e5f5; /* Light purple tone */
+  padding: 40px;
+  border-radius: 10px;
+  width: 80%;
+  margin: auto;
+  text-align: center;
+  min-height: 100vh; /* Ensure the app container is at least the full height of the viewport */
+  box-sizing: border-box; /* Include padding and borders in the height calculation */
 }
 
 /* Title styling */
 .title {
   font-size: 6rem;
-  color: #345d7e;
+  color: #6f42c1; /* Updated to purple */
   margin-bottom: 100px; /* Space below title */
 }
 
 /* Centering the name container */
-.name-container { /* Updated to name-container */
+.name-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -25,14 +39,14 @@
 
 .name-container h3 {
   font-size: 2.5rem;
-  color: #345d7e;
+  color: #6f42c1; /* Updated to purple */
   margin-bottom: 10px;
 }
 
 /* Centering the symptom prompt */
 .symptom-prompt h2 {
   font-size: 2.5rem;
-  color: #345d7e; /* Darker blue-green color for text */
+  color: #6f42c1; /* Updated to purple */
 }
 
 /* Styling the input boxes */
@@ -45,7 +59,7 @@
 .input-box {
   width: 300px;
   padding: 10px;
-  border: 2px solid #a1c5c7;
+  border: 2px solid #325d88; /* Updated to darker purple-blue */
   border-radius: 5px;
   outline: none;
   font-size: 1rem;
@@ -58,7 +72,7 @@
 }
 
 .submit-button {
-  background-color: #4a90e2; /* Blue color for the button */
+  background-color: #6f42c1; /* Updated to purple */
   color: white;
   border: none;
   padding: 15px 30px;
@@ -68,7 +82,7 @@
 }
 
 .submit-button:hover {
-  background-color: #357ab7; /* Darker blue on hover */
+  background-color: #563d7c; /* Darker purple on hover */
 }
 
 .response-container {
@@ -82,5 +96,12 @@
 
 .response-container h3 {
   font-size: 1.25rem;
-  color: #345d7e;
+  color: #6f42c1; /* Updated to purple */
+}
+
+/* Styling for the success message */
+.success-message {
+  margin-top: 20px;
+  color: green;
+  font-size: 1.5rem;
 }

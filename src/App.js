@@ -8,7 +8,7 @@ function App() {
   const [symptoms, setSymptoms] = useState("");
   const [age, setAge] = useState("");
   const [gender, setGender] = useState("");
-  const [response, setResponse] = useState(null);
+  const [successMessage, setSuccessMessage] = useState("");  // State for success message
 
   const handleSubmit = async () => {
     // Prepare the data to be sent to the API
@@ -21,9 +21,22 @@ function App() {
 
     try {
       // Send POST request to the Flask API
-      const res = await axios.post('https://hackgt11flask-production.up.railway.app/triage', data);
-      setResponse(res.data); // Save the API response to display it
-      console.log("Response from API:", res.data);
+      await axios.post('https://hackgt11flask-production.up.railway.app/triage', data);
+
+      // Clear the input fields after successful submission
+      setName("");
+      setSymptoms("");
+      setAge("");
+      setGender("");
+
+      // Display success message
+      setSuccessMessage("You were successfully added to the queue.");
+
+      // Clear the success message after 3 seconds
+      setTimeout(() => {
+        setSuccessMessage("");
+      }, 3000);
+
     } catch (error) {
       console.error("There was an error sending the request:", error);
     }
@@ -83,12 +96,10 @@ function App() {
         <button className="submit-button" onClick={handleSubmit}>Submit</button> {/* Submit Button */}
       </div>
 
-      {/* Display response from API */}
-      {response && (
-        <div className="response-container">
-          <h3>Response from Triage API:</h3>
-          <p>Severity Rating: {response.severity_rating}</p>
-          <p>Potential Diagnoses: {response.potential_diagnoses.join(", ")}</p>
+      {/* Display success message */}
+      {successMessage && (
+        <div className="success-message">
+          {successMessage}
         </div>
       )}
     </div>
